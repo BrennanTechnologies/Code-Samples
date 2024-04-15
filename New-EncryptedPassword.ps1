@@ -67,10 +67,12 @@ function New-EncryptedPassword {
             ### Create Password File with Full Credentials
             Write-Host "Encrypting Full Credentials."  -ForegroundColor Cyan
             try {
-                (Get-Credential).Password | ConvertFrom-SecureString -Key (Get-Content $AESKey) | Set-Content -Path $PasswordFile -ErrorAction Stop
+                (Get-Credential).Password | ConvertFrom-SecureString -Key (Get-Content $AESKey) `
+                    | Set-Content -Path $PasswordFile -ErrorAction Stop
             } 
             catch {
-                Write-Warning -Message ("Error Creating Encypted Password File. `r`n" + $global:Error[0].Exception.Message) -ErrorAction Stop
+                Write-Warning -Message ("Error Creating Encypted Password File. `r`n" `
+                    + $global:Error[0].Exception.Message) -ErrorAction Stop
             }
         }
         else {
@@ -78,13 +80,16 @@ function New-EncryptedPassword {
             Write-Host "Encrypting Password Only."  -ForegroundColor Cyan
             try {
                 $Password = Read-Host -Prompt 'Enter Password to Encrypt ' -AsSecureString
-                $Password | ConvertFrom-SecureString -Key (Get-Content $AESKey) | Set-Content -Path $PasswordFile -ErrorAction Stop
+                $Password | ConvertFrom-SecureString -Key (Get-Content $AESKey) `
+                    | Set-Content -Path $PasswordFile -ErrorAction Stop
             } 
             catch {
-                Write-Warning -Message ("Error Creating Encypted Password File. `r`n" + $global:Error[0].Exception.Message) -ErrorAction Stop
+                Write-Warning -Message ("Error Creating Encypted Password File. `r`n" `
+                    + $global:Error[0].Exception.Message) -ErrorAction Stop
             }
         }
-        Write-Host "The Encrypted Password Key Pair was created in the folder:`r`n $KeyFolder " -ForegroundColor Green
+        Write-Host "The Encrypted Password Key Pair was created in the folder:`r`n `
+            $KeyFolder " -ForegroundColor Green
         Write-Host "PasswordFile : " $PasswordFile -ForegroundColor White
         Write-Host "AESKey       : " $AESKey -ForegroundColor White
     }
